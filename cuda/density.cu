@@ -70,9 +70,9 @@ __global__ void kernel_compute_density(double* d_rho_out,
 }
 
 /*
- * Orbital 2pz de Slater
- * Forma: z * exp(-zeta * r / 2)
- * Nota: Tiene un nodo en z=0 (plano xy).
+ * Orbital 2px de Slater
+ * Forma: x * exp(-zeta * r / 2)
+ * Nota: Tiene un nodo en z=0 (plano yz).
  */
 __global__ void kernel_init_slater_2pz(double* d_phi_out,
                                        GridInfo grid,
@@ -89,9 +89,9 @@ __global__ void kernel_init_slater_2pz(double* d_phi_out,
 
     double r = sqrt(x*x + y*y + z*z);
 
-    // El factor z hace que sea antisimétrico (positivo arriba, negativo abajo)
+    // El factor x hace que sea antisimétrico 
     // Usamos zeta/2 porque los orbitales n=2 son más difusos.
-    double phi_val = z * exp(-zeta * r * 0.5);
+    double phi_val = x * exp(-zeta * r * 0.5);
 
     int flat_idx = (ix * grid.N + iy) * grid.N + iz;
     d_phi_out[flat_idx] = phi_val;
